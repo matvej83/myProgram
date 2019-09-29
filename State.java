@@ -1,7 +1,7 @@
-package SomeSubstances;
+package someSubstances;
 
 public enum State {
-    solid,
-    liquid,
-    gas
+    SOLID,
+    LIQUID,
+    GAS
 }
