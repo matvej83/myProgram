@@ -1,9 +1,9 @@
-package SomeSubstances;
+package someSubstances;
 
 public class Iron implements Substance {
     private String Name = "Iron";
     private double temperature = 20d;
-    private SomeSubstances.State currentState;
+    private someSubstances.State currentState;
 
     public Iron(double temperature, State currentState) {
         this.temperature = temperature;
@@ -18,11 +18,11 @@ public class Iron implements Substance {
     public State heatUp(double t) {
         this.temperature = getTemperature() + t;
         if (this.temperature <= 1538d) {
-            currentState = State.solid;
+            currentState = State.SOLID;
         } else if (this.temperature >= 1538d && this.temperature < 2862d) {
-            currentState = State.liquid;
+            currentState = State.LIQUID;
         } else if (this.temperature >= 2862d) {
-            currentState = State.gas;
+            currentState = State.GAS;
         }
         return currentState;
     }
