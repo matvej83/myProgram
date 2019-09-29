@@ -20,20 +20,14 @@ abstract public class Group {
     }
 
     public static ContractStudent[] selectContractStudent(Student[] student) {
-        int counter = 0;
+        List<ContractStudent> listOfContractStudent = new LinkedList<ContractStudent>();
         for (int i = 0; i < student.length; i++) {
             if (student[i] instanceof ContractStudent) {
-                counter++;
+                listOfContractStudent.add((ContractStudent) student[i]);
             }
         }
-        ContractStudent[] contractStudent = new ContractStudent[counter];
-        int j = 0;
-        for (int i = 0; i < student.length; i++) {
-            if (student[i] instanceof ContractStudent) {
-                contractStudent[j] = (ContractStudent) student[i];
-                j++;
-            }
-        }
+        ContractStudent[] contractStudent = {};
+        contractStudent = listOfContractStudent.toArray(new ContractStudent[listOfContractStudent.size()]);
         return contractStudent;
     }
 }
