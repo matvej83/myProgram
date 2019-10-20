@@ -51,15 +51,16 @@ public class MyArrayList<T> implements MyIterable {
 
     private void expandArray() {
         int oldSize = this.size();
-        int newSize = oldSize + 1;
+        int newSize = oldSize + 10;
         this.myArray = Arrays.copyOf(this.myArray, newSize);
-        //System.out.println("size: " + this.size());
+        this.size = newSize;
     }
 
     private void trimArray() {
         int oldSize = this.size();
         int newSize = oldSize - 1;
         this.myArray = Arrays.copyOf(this.myArray, newSize);
+        this.size = newSize;
     }
 
     public void add(T element) {
@@ -70,7 +71,8 @@ public class MyArrayList<T> implements MyIterable {
     }
 
     public T remove(int index) {
-        T removed = this.myArray[this.size() - 1];
+        final T removed = this.get(index);
+        System.arraycopy(this.myArray, index, this.myArray, index - 1, this.size - index);
         this.trimArray();
         return removed;
     }
@@ -78,13 +80,17 @@ public class MyArrayList<T> implements MyIterable {
     public T get(int index) {
         if (index > this.size() - 1) throw new IndexOutOfBoundsException("Index out of bounds array size!");
         else {
-            T element = this.myArray[index];
-            return element;
+            return this.myArray[index];
         }
     }
 
     public void add(int i, T element) {
-
+        int oldSize = this.size();
+        int newSize = oldSize + 1;
+        this.myArray = Arrays.copyOf(this.myArray, newSize);
+        System.arraycopy(this.myArray, i - 1, this.myArray, i, this.size - i + 1);
+        this.myArray[i - 1] = element;
+        this.size++;
     }
 
     public void clear() {
