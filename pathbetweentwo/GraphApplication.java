@@ -3,21 +3,22 @@ package pathbetweentwo;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class GraphApplication {
     public static void main(String[] args) throws IOException {
         final int INFINITY = 200000;
         int vertexNumber = 0;
-        Integer[][] graph;
+        int[][] graph;
         int neighbours = 0;
         int initialVertex = 1;
-        ArrayList<String> cities = new ArrayList<>();
-        ArrayList<String> paths = new ArrayList<>();
-        ArrayList<String> readData = new IOtoFile().inputFromFile("src/pathbetweentwo/input.txt");
-        System.out.println(readData.toString());
+        List<String> cities = new ArrayList<>();
+        List<String> paths = new ArrayList<>();
+        List<String> readData = new IOtoFile().inputFromFile("src/pathbetweentwo/input.txt");
+        System.out.println("We've read this data from file " + readData.toString());
         vertexNumber = Integer.parseInt(readData.get(0));
-        graph = new Integer[vertexNumber][vertexNumber];
+        graph = new int[vertexNumber][vertexNumber];
         for (int i = 0; i < graph.length; i++) {
             for (int j = 0; j < graph.length; j++) {
                 graph[i][j] = INFINITY;
@@ -39,7 +40,6 @@ public class GraphApplication {
                     while (sc.hasNext()) {
                         neighbour = sc.nextInt();
                         weight = sc.nextInt();
-                        //System.out.println(initialVertex + " " + neighbour);
                         graph[initialVertex - 1][neighbour - 1] = weight;
                         iterator++;
                     }
@@ -48,36 +48,32 @@ public class GraphApplication {
                 initialVertex++;
             } else {
                 pathNumber = Integer.parseInt(readData.get(iterator));
+                iterator++;
                 for (int i = 0; i < pathNumber; i++) {
                     paths.add(readData.get(iterator));
-                    //System.out.println(readData.get(iterator) + " " + iterator);
+                    iterator++;
                     if (iterator > readData.size()) {
                         return;
                     }
-                    iterator++;
-                    //System.out.println(readData.get(iterator) + " " + iterator);
                 }
             }
         }
         int[][] result = new int[vertexNumber][vertexNumber];
         System.arraycopy(new FloydWarshal().floydWarshall(graph, vertexNumber), 0, result, 0, vertexNumber);
 
-        //get paths
-        Double[] shortPaths = new Double[pathNumber];
+        //get shortest paths
+        int[] shortPaths = new int[pathNumber];
         int counter = 0, firstIndex = 0, lastIndex = 0;
         for (String tmp : paths) {
-            firstIndex = cities.indexOf(tmp.substring(0, tmp.indexOf(" ") - 1));
-            lastIndex = cities.indexOf(tmp.substring(tmp.indexOf(" ") + 1));
-            shortPaths[counter] = (double) result[firstIndex][lastIndex];
+            firstIndex = cities.indexOf(tmp.substring(0, tmp.indexOf(' ')));
+            lastIndex = cities.indexOf(tmp.substring(tmp.indexOf(' ') + 1));
+            shortPaths[counter] = result[firstIndex][lastIndex];
             counter++;
         }
         new IOtoFile().outputToFile(shortPaths, "src/pathbetweentwo/output.txt");
         //testing code are given below
-        System.out.println(paths.toString());
-        System.out.println(Arrays.deepToString(graph));
-        System.out.println(Arrays.deepToString(result));
-        for (int i = 0; i < cities.size(); i++) {
-            cities.get(i);
-        }
+        //System.out.println(paths.toString());
+        //System.out.println(Arrays.deepToString(graph));
+        //System.out.println(Arrays.deepToString(result));
     }
 }

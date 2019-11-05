@@ -1,20 +1,22 @@
 package pathbetweentwo;
 
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 public class IOtoFile {
 
-    public ArrayList<String> inputFromFile(String pathName) {
-        ArrayList<String> hasRead = new ArrayList<>();
+    public List<String> inputFromFile(String pathName) {
+        List<String> hasRead = new ArrayList<>();
+        Path path = Paths.get(pathName);
         try {
-            File file = new File(pathName);
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            while (br.readLine() != null) {
-                hasRead.add(br.readLine());
-            }
-            br.close();
-        } catch (FileNotFoundException e) {
+            hasRead = Files.readAllLines(path, Charset.defaultCharset());
+        } catch (NoSuchFileException e) {
             e.printStackTrace();
             System.err.println("File isn't found!");
         } catch (IOException e) {
@@ -24,14 +26,11 @@ public class IOtoFile {
         return hasRead;
     }
 
-    public void outputToFile(Double outputData[], String pathName) {
-        try {
-            File file = new File(pathName);
-            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+    public void outputToFile(int[] outputData, String pathName) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(new File(pathName)))) {
             for (int i = 0; i < outputData.length; i++) {
-                bw.write(outputData[i].toString() + System.lineSeparator());
+                bw.write(outputData[i] + System.lineSeparator());
             }
-            bw.close();
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Error writing to file!");
