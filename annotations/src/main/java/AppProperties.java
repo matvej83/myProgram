@@ -1,13 +1,13 @@
 public class AppProperties {
-    @PropertyKeys.PropertyKey("cargo")
+    @PropertyKey("cargo")
     private String cargo;
-    @PropertyKeys.PropertyKey("weight")
+    @PropertyKey("weight")
     private double weight;
-    @PropertyKeys.PropertyKey("length")
+    @PropertyKey("length")
     private double length;
-    @PropertyKeys.PropertyKey("width")
+    @PropertyKey("width")
     private double width;
-    @PropertyKeys.PropertyKey("height")
+    @PropertyKey("height")
     private double height;
     private String address = "some secret place...";
 

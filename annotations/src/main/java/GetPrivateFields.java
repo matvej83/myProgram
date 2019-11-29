@@ -27,7 +27,7 @@ public class GetPrivateFields {
             Constructor constructor = ReflectClass.getConstructor();
             Object instance = constructor.newInstance();
             for (Field field : declaredFields) {
-                if (field.isAnnotationPresent(PropertyKeys.PropertyKey.class) && field.trySetAccessible()) {
+                if (field.isAnnotationPresent(PropertyKey.class) && field.trySetAccessible()) {
                     if (props.containsKey(field.getName())) {
                         setField(field, instance, props.getProperty(field.getName()));
                         System.out.println(field.getName() + " - " + getField(field, instance));
