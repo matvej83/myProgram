@@ -1,5 +1,0 @@
-aCargo = Fruits
-aWeight = 10.0
-aLength = 800.0
-aWidth = 600.0
-aHeight = 200.0
