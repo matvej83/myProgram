@@ -6,7 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -31,10 +33,13 @@ public class JpaEntityManager {
             log.info("Department with name {} created: ", depName);
             log.info("Profit {} has set for department with name {}: ", profit, depName);
             System.out.println("Enter the year for report getting:");
-            String year = sc.nextLine();
-            System.out.println(getReport(entityManager, year));
-            IOtoFile readFromFile = new IOtoFile();
-            readFromFile.writeToFile(getReport(entityManager, year), args[0]);
+            int aYear = sc.nextInt();
+            IOtoFile writeTo = new IOtoFile();
+            List<?> result = getReport(entityManager, aYear);
+            for (int i = 0; i < result.size(); i++) {
+                log.info("{} department", result.get(i));
+            }
+            writeTo.writeToFile(getReport(entityManager, aYear), args[0]);
         }
     }
 
@@ -50,6 +55,7 @@ public class JpaEntityManager {
             LocalDate currentDate = LocalDate.now();
             DailyReport report = new DailyReport(department.getName().concat(currentDate.toString()));
             report.setProfit(profit);
+            report.setDepartment(department);
 
             entityManager.persist(report);
 
@@ -61,18 +67,19 @@ public class JpaEntityManager {
         }
     }
 
-    public static List<?> getReport(EntityManager entityManager, String year) {
-        List<?> reports = null;
-        try {
-            reports = (List<?>) entityManager.createQuery("select aQuery from DailyReport aQuery where YEAR (aQuery.date) =: year");
-
-        } catch (Exception e) {
-            e.printStackTrace();
+    public static List<String> getReport(EntityManager entityManager, int aYear) {
+        Query query = entityManager.createQuery("select aQuery from DailyReport aQuery where YEAR (aQuery.date) = :aYear", DailyReport.class);
+        query.setParameter("aYear", aYear);
+        List<DailyReport> resultList = query.getResultList();
+        if (resultList.size() == 0) {
+            System.err.println("No results!");
         }
-        return reports;
+        List<String> report = new ArrayList<>();
+        for (DailyReport result :
+                resultList) {
+            report.add(result.getDepartment().getName() + "," + result.getProfit());
+        }
+        return report;
     }
-
-
-
 
 }

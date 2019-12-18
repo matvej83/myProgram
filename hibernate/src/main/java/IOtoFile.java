@@ -39,7 +39,7 @@ public class IOtoFile {
     public void writeToFile(List<?> list, String pathName){
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(pathName))) {
             for (Object tmp : list) {
-                bw.write(tmp.toString());
+                bw.write(tmp.toString() + System.lineSeparator());
             }
         } catch (IOException e) {
             e.printStackTrace();
