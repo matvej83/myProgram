@@ -2,7 +2,9 @@ package entity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -18,10 +20,17 @@ public class User {
     private String name;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Photo> photos;
+    private List<Photo> photos = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "applicableToUser")
-    private List<Like> likes = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "liked_photos",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "photo_id"))
+    Set<Photo> likedPhotos = new HashSet<>();
 
     public User() {
 
@@ -56,12 +65,12 @@ public class User {
         this.photos = photos;
     }
 
-    public List<Like> getLikes() {
-        return likes;
+    public List<Comment> getComments() {
+        return comments;
     }
 
-    public void setLikes(List<Like> likes) {
-        this.likes = likes;
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
     public void addPhotos(String title) {
@@ -69,17 +78,33 @@ public class User {
         photo.setUser(this);
         photo.setTitle(title);
         photos.add(photo);
+        this.setPhotos(photos);
     }
 
-    public void addLike(String author) {
-        if (likes.size() < 1) {
-            Like like = new Like(author);
-            likes.add(like);
-        } else return;
+    public void addComment(Photo photo, String text) {
+        Comment comment = new Comment();
+        comment.setUser(this);
+        comment.setText(text);
+        comment.setPhoto(photo);
+        comments.add(comment);
     }
 
-    public void withdrawLike(Object targetObject){
-        likes.clear();
+    public Set<Photo> getLikedPhotos() {
+        return likedPhotos;
+    }
+
+    public void setLikedPhotos(HashSet<Photo> likedPhotos) {
+        this.likedPhotos = likedPhotos;
+    }
+
+    public void likePhoto(Photo photo) {
+        this.likedPhotos.add(photo);
+        photo.whoLikes.add(this);
     }
 
 }
+
+//1. вместо сущности лайков создать связь liked many to many между user/comment/photo. это таблица связей join table.
+//2. map superclass,  uniq constrains
+
+//ограничение на число лайков - уникальный индекс или singletable

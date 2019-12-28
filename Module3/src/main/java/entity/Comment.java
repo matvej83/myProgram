@@ -13,9 +13,6 @@ public class Comment {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "author", nullable = false)
-    private String author = this.user.getName();
-
     @Column(name = "text", nullable = false)
     private String text;
 
@@ -23,25 +20,14 @@ public class Comment {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToMany
-    @JoinTable(
-            name = "comment_to_photo",
-            joinColumns = @JoinColumn(
-                    name = "comment_id",
-                    referencedColumnName = "id"
-            ),
-            inverseJoinColumns = @JoinColumn(
-                    name = "photo_id",
-                    referencedColumnName = "id"
-            )
-    )
-    private List<Photo> applicableToPhoto = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "photo_id")
+    private Photo photo;
 
     public Comment() {
     }
 
-    public Comment(String author, String text) {
-        this.author = author;
+    public Comment(String text) {
         this.text = text;
     }
 
@@ -51,14 +37,6 @@ public class Comment {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
     }
 
     public String getText() {
@@ -77,12 +55,11 @@ public class Comment {
         this.user = user;
     }
 
-    public List<Photo> getApplicableToPhoto() {
-        return applicableToPhoto;
+    public Photo getPhoto() {
+        return photo;
     }
 
-    public void setApplicableToPhoto(List<Photo> applicableToPhoto) {
-        this.applicableToPhoto = applicableToPhoto;
+    public void setPhoto(Photo photo) {
+        this.photo = photo;
     }
-
 }

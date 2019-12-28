@@ -1,4 +1,3 @@
-import entity.Like;
 import entity.Photo;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -20,26 +19,27 @@ public class JpaEntityManager {
 
         try (sessionFactory) {
             EntityManager entityManager = sessionFactory.createEntityManager();
-            List<Like> likesArray = new ArrayList<>();
-            List<Object> likesResults = getQueryResults(entityManager, "select U.likes from User U");
-            int i = 0;
-            for (Object o :
-                    likesResults) {
-                likesArray.add((Like) o);
-                log.info("User {} set {} likes to user {}", likesArray.get(i).getAuthor(),
-                        likesArray.get(i).toString(), likesArray.get(i).getUser());
-                i++;
-            }
+            entityManager.getTransaction().begin();
+
+//            List<Object> likesResults = getQueryResults(entityManager, "select U.likes from User U");
+//            int i = 0;
+//            for (Object o :
+//                    likesResults) {
+//                likesArray.add((Like) o);
+//                log.info("User {} set {} likes to user {}", likesArray.get(i).getUser(),
+//                        likesArray.get(i).toString(), likesArray.get(i).getUser());
+//                i++;
+//            }
             List<Photo> photosArray = new ArrayList<>();
             List<Object> photosResults = getQueryResults(entityManager, "select U.photos from User U");
-            i = 0;
+            int i = 0;
             for (Object o :
                     photosResults) {
                 photosArray.add((Photo) o);
-                log.info("User {} post {} photos in his account:", photosArray.get(i).getAuthor(),
-                        photosArray.get(i).toString());
-                log.info("/t - photo {} has {} likes and {} comments", photosArray.get(i).getTitle(),
-                        photosArray.get(i).getLikes(), photosArray.get(i).getComments());
+                log.info("User {} post {} photos in his/her account:", photosArray.get(i).getUser().getName(),
+                        photosArray.size());
+                log.info("\t - photo '{}' liked by user {} and has {} comments", photosArray.get(i).getTitle(),
+                        photosArray.get(i).getWhoLikes().iterator().next().getName(), photosArray.get(i).getComments().size());
                 i++;
             }
 

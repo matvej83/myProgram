@@ -2,7 +2,9 @@ package entity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "photo")
@@ -16,26 +18,22 @@ public class Photo {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "author", nullable = false)
-    private String author;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToMany(mappedBy = "applicableToPhoto")
-    private List<Like> likes = new ArrayList<>();
-
-    @ManyToMany(mappedBy = "applicableToPhoto")
+    @OneToMany(mappedBy = "photo", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "likedPhotos")
+    Set<User> whoLikes = new HashSet<>();
 
     public Photo() {
 
     }
 
-    public Photo(String title, String author) {
+    public Photo(String title) {
         this.title = title;
-        this.author = user.getName();
     }
 
     public Long getId() {
@@ -54,28 +52,12 @@ public class Photo {
         this.title = title;
     }
 
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
     public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public List<Like> getLikes() {
-        return likes;
-    }
-
-    public void setLikes(List<Like> likes) {
-        this.likes = likes;
     }
 
     public List<Comment> getComments() {
@@ -86,23 +68,12 @@ public class Photo {
         this.comments = comments;
     }
 
-    public void addLike(String author) {
-        if (likes.size() == 0) {
-            Like like = new Like(author);
-            likes.add(like);
-        } else return;
+    public Set<User> getWhoLikes() {
+        return whoLikes;
     }
 
-    public void addComment(String author, String text) {
-        Comment comment = new Comment();
-        comment.setText(text);
-        comments.add(comment);
+    public void setWhoLikes(HashSet<User> whoLikes) {
+        this.whoLikes = whoLikes;
     }
-
-//    public void withdrawLike(User user, Object targetObject){
-//        if(likes.get(0).getAuthor().equals(user)){
-//            likes.clear();
-//        } else return;
-//    }
 
 }
