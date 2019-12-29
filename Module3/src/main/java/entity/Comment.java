@@ -1,8 +1,7 @@
 package entity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "comment")
@@ -23,6 +22,9 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "photo_id")
     private Photo photo;
+
+    @ManyToMany(mappedBy = "likedComments")
+    Set<User> whoLikesComments = new HashSet<>();
 
     public Comment() {
     }
@@ -62,4 +64,29 @@ public class Comment {
     public void setPhoto(Photo photo) {
         this.photo = photo;
     }
+
+    public Set<User> getWhoLikesComments() {
+        return whoLikesComments;
+    }
+
+    public void setWhoLikesComments(Set<User> whoLikesComments) {
+        this.whoLikesComments = whoLikesComments;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Comment comment = (Comment) o;
+        return id.equals(comment.id) &&
+                text.equals(comment.text) &&
+                user.equals(comment.user) &&
+                Objects.equals(photo, comment.photo) &&
+                Objects.equals(whoLikesComments, comment.whoLikesComments);
+    }
+
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(whoLikesComments);
+//    }
 }

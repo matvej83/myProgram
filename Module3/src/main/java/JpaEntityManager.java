@@ -1,4 +1,6 @@
+import entity.Comment;
 import entity.Photo;
+import entity.User;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.slf4j.Logger;
@@ -8,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 
 public class JpaEntityManager {
@@ -21,25 +24,34 @@ public class JpaEntityManager {
             EntityManager entityManager = sessionFactory.createEntityManager();
             entityManager.getTransaction().begin();
 
-//            List<Object> likesResults = getQueryResults(entityManager, "select U.likes from User U");
-//            int i = 0;
-//            for (Object o :
-//                    likesResults) {
-//                likesArray.add((Like) o);
-//                log.info("User {} set {} likes to user {}", likesArray.get(i).getUser(),
-//                        likesArray.get(i).toString(), likesArray.get(i).getUser());
-//                i++;
-//            }
+            List<Comment> likedComments = new ArrayList<>();
+            List<Object> likedCommentsResults = getQueryResults(entityManager, "select U.comments from User U");
+            int i = 0;
+            for (Object o :
+                    likedCommentsResults) {
+                likedComments.add((Comment) o);
+                log.info("User {} added {} comments to user {} photos", likedComments.get(i).getUser().getName(),
+                        likedComments.get(i).getUser().getComments().size(),
+                        likedComments.get(i).getUser().getComments().get(likedComments.get(i).getUser().getComments().size() - 1).getPhoto().getUser().getName());
+                if (i > likedComments.get(i).getWhoLikesComments().size() - 1) continue;
+                else
+                    log.info("User {} likes user {} comments", likedComments.get(i).getWhoLikesComments().iterator().next().getName(),
+                            likedComments.get(i).getUser().getName());
+                i++;
+            }
+
             List<Photo> photosArray = new ArrayList<>();
             List<Object> photosResults = getQueryResults(entityManager, "select U.photos from User U");
-            int i = 0;
+            i = 0;
             for (Object o :
                     photosResults) {
                 photosArray.add((Photo) o);
-                log.info("User {} post {} photos in his/her account:", photosArray.get(i).getUser().getName(),
+                log.info("User {} posts {} photos in his/her account:", photosArray.get(i).getUser().getName(),
                         photosArray.size());
-                log.info("\t - photo '{}' liked by user {} and has {} comments", photosArray.get(i).getTitle(),
-                        photosArray.get(i).getWhoLikes().iterator().next().getName(), photosArray.get(i).getComments().size());
+                if (i > photosArray.get(i).getWhoLikesPhotos().size() - 1) continue;
+                else
+                    log.info("\t - photo '{}' liked by user {} and has {} comments", photosArray.get(i).getTitle(),
+                            photosArray.get(i).getWhoLikesPhotos().iterator().next().getName(), photosArray.get(i).getComments().size());
                 i++;
             }
 

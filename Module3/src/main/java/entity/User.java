@@ -1,10 +1,7 @@
 package entity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "user")
@@ -31,6 +28,23 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "photo_id"))
     Set<Photo> likedPhotos = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "liked_users",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "target_user_id"))
+    Set<User> likedUsers = new HashSet<>();
+
+    @ManyToMany(mappedBy = "likedUsers")
+    Set<User> whoLikesUsers = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "liked_comments",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "comment_id"))
+    Set<Comment> likedComments = new HashSet<>();
 
     public User() {
 
@@ -93,18 +107,81 @@ public class User {
         return likedPhotos;
     }
 
-    public void setLikedPhotos(HashSet<Photo> likedPhotos) {
+    public void setLikedPhotos(Set<Photo> likedPhotos) {
         this.likedPhotos = likedPhotos;
+    }
+
+    public Set<User> getLikedUsers() {
+        return likedUsers;
+    }
+
+    public void setLikedUsers(Set<User> likedUsers) {
+        this.likedUsers = likedUsers;
     }
 
     public void likePhoto(Photo photo) {
         this.likedPhotos.add(photo);
-        photo.whoLikes.add(this);
+        photo.whoLikesPhotos.add(this);
     }
 
+    public void likeUser(User user) {
+        this.likedUsers.add(user);
+        user.whoLikesUsers.add(this);
+    }
+
+    public void likeComment(Comment comment) {
+        this.likedComments.add(comment);
+        comment.whoLikesComments.add(this);
+    }
+
+    public void withdrawLikesUser(User user, Set likedUsers) {
+        this.likedPhotos.remove(user);
+        user.whoLikesUsers.remove(user);
+    }
+
+    public void withdrawLikesPhoto(Photo photo, Set likedPhotos) {
+        this.likedPhotos.remove(photo);
+        photo.whoLikesPhotos.remove(photo);
+    }
+
+    public void withdrawLikesComments(Comment comment, Set likedComments) {
+        this.likedPhotos.remove(comment);
+        comment.whoLikesComments.remove(comment);
+    }
+
+    public Set<User> getWhoLikesUsers() {
+        return whoLikesUsers;
+    }
+
+    public void setWhoLikesUsers(Set<User> whoLikesUsers) {
+        this.whoLikesUsers = whoLikesUsers;
+    }
+
+    public Set<Comment> getLikedComments() {
+        return likedComments;
+    }
+
+    public void setLikedComments(Set<Comment> likedComments) {
+        this.likedComments = likedComments;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id.equals(user.id) &&
+                name.equals(user.name) &&
+                Objects.equals(photos, user.photos) &&
+                Objects.equals(comments, user.comments) &&
+                Objects.equals(likedPhotos, user.likedPhotos) &&
+                Objects.equals(likedUsers, user.likedUsers) &&
+                Objects.equals(whoLikesUsers, user.whoLikesUsers) &&
+                Objects.equals(likedComments, user.likedComments);
+    }
+
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(likedPhotos, likedUsers, whoLikesUsers, likedComments);
+//    }
 }
-
-//1. вместо сущности лайков создать связь liked many to many между user/comment/photo. это таблица связей join table.
-//2. map superclass,  uniq constrains
-
-//ограничение на число лайков - уникальный индекс или singletable
