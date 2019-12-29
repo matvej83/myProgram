@@ -10,7 +10,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "name", nullable = false)
@@ -170,18 +170,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id.equals(user.id) &&
-                name.equals(user.name) &&
-                Objects.equals(photos, user.photos) &&
-                Objects.equals(comments, user.comments) &&
-                Objects.equals(likedPhotos, user.likedPhotos) &&
-                Objects.equals(likedUsers, user.likedUsers) &&
-                Objects.equals(whoLikesUsers, user.whoLikesUsers) &&
-                Objects.equals(likedComments, user.likedComments);
+        return name.equals(user.name);
     }
 
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(likedPhotos, likedUsers, whoLikesUsers, likedComments);
-//    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
 }

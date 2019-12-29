@@ -9,7 +9,7 @@ import java.util.*;
 public class Photo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "title", nullable = false)
@@ -78,15 +78,12 @@ public class Photo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Photo photo = (Photo) o;
-        return id.equals(photo.id) &&
-                title.equals(photo.title) &&
-                user.equals(photo.user) &&
-                Objects.equals(comments, photo.comments) &&
-                Objects.equals(whoLikesPhotos, photo.whoLikesPhotos);
+        return title.equals(photo.title) &&
+                user.equals(photo.user);
     }
 
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(whoLikesPhotos);
-//    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, user);
+    }
 }

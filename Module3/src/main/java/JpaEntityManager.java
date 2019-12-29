@@ -35,7 +35,7 @@ public class JpaEntityManager {
                         likedComments.get(i).getUser().getComments().get(likedComments.get(i).getUser().getComments().size() - 1).getPhoto().getUser().getName());
                 if (i > likedComments.get(i).getWhoLikesComments().size() - 1) continue;
                 else
-                    log.info("User {} likes user {} comments", likedComments.get(i).getWhoLikesComments().iterator().next().getName(),
+                    log.info("User {} liked user {} comments", likedComments.get(i).getWhoLikesComments().iterator().next().getName(),
                             likedComments.get(i).getUser().getName());
                 i++;
             }
@@ -46,7 +46,7 @@ public class JpaEntityManager {
             for (Object o :
                     photosResults) {
                 photosArray.add((Photo) o);
-                log.info("User {} posts {} photos in his/her account:", photosArray.get(i).getUser().getName(),
+                log.info("User {} posted {} photos in his/her account:", photosArray.get(i).getUser().getName(),
                         photosArray.size());
                 if (i > photosArray.get(i).getWhoLikesPhotos().size() - 1) continue;
                 else

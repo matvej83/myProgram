@@ -9,7 +9,7 @@ import java.util.*;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "text", nullable = false)
@@ -78,15 +78,13 @@ public class Comment {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Comment comment = (Comment) o;
-        return id.equals(comment.id) &&
-                text.equals(comment.text) &&
+        return text.equals(comment.text) &&
                 user.equals(comment.user) &&
-                Objects.equals(photo, comment.photo) &&
-                Objects.equals(whoLikesComments, comment.whoLikesComments);
+                Objects.equals(photo, comment.photo);
     }
 
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(whoLikesComments);
-//    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(text, user, photo);
+    }
 }
