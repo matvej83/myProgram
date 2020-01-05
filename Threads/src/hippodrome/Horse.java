@@ -8,8 +8,7 @@ public class Horse implements Runnable {
     private Semaphore semaphore;
     private boolean running = true;
     private String name;
-    private int speed = getRandomInt(0, 100);
-    private boolean isFinished = false;
+    private int speed = getRandomInt(60, 100);
 
     public Horse(Semaphore semaphore, String name) {
         this.semaphore = semaphore;
@@ -18,8 +17,6 @@ public class Horse implements Runnable {
 
     @Override
     public void run() {
-        long timeWorkCode = System.currentTimeMillis() - Program.start;
-        System.out.println("Thread start at " + timeWorkCode);
         int distance = 0;
         int maxDistance = 1000;
         try {
@@ -33,7 +30,6 @@ public class Horse implements Runnable {
                         e.printStackTrace();
                     }
                 } else {
-                    isFinished = true;
                     stopThread();
                 }
             }
@@ -61,18 +57,12 @@ public class Horse implements Runnable {
     }
 
     public void stopThread() {
-        System.out.println("Stopping execution");
+        Program.addFinished(Thread.currentThread().getName());
         running = false;
-        long timeEndCode = System.currentTimeMillis() - Program.start;
-        System.out.println("Thread stopped at " + timeEndCode);
     }
 
     int getRandomInt(int min, int max) {
         Random random = new Random();
         return random.nextInt(max - min) + min;
-    }
-
-    public boolean isFinished() {
-        return isFinished;
     }
 }

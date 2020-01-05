@@ -1,14 +1,12 @@
 package hippodrome;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.Semaphore;
 
 /**
  * This program was created as a part of home task, that's given below.
  * Task:
- * To write hippodrome simulator: some horses (every in separate thread) runs at the distance 1000 m. For one iteration
+ * To write hippodrome simulator: a few horses (every in separate thread) runs at the distance 1000 m. For one iteration
  * each horse runs 60-100 m (chooses by means randomise) and after, she sleeps for a 100 ms. Before the start user
  * chooses horse on which he bets. After all the horses has reached the finish line, display position, on which chosen
  * horse finished.
@@ -16,34 +14,46 @@ import java.util.concurrent.Semaphore;
 
 public class Program {
 
-    private static final int HORSENUMBER = 4;
-    public static long start;
+    private static final int HORSENUMBER = 6;
+    private static List<String> hasFinished = Collections.synchronizedList(new ArrayList<>());
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Semaphore semaphore = new Semaphore(HORSENUMBER);
-
-        start = System.currentTimeMillis();
-
-        List<Horse> horses = new ArrayList<>();
-        List<Horse> hasFinished = new ArrayList<>();
+        List<String> horses = Collections.synchronizedList(new ArrayList<>());
 
         System.out.println("In race takes part such horses:");
         for (int i = 0; i < HORSENUMBER; i++) {
-            Horse horse = new Horse(semaphore, "Horse #" + (i + 1));
-            horses.add(horse);
-            System.out.println(horse.getName() + " speed: " + horse.getSpeed());
+            Thread runningHorse = new Thread(new Horse(semaphore, "Horse-" + (i + 1)), "Horse #" + (i + 1));
+            runningHorse.start();
+            horses.add(runningHorse.getName());
+            System.out.println(horses.get(i));
         }
-        System.out.println("Choose the horse number to bet (enter 1...4):");
-        int choice = sc.nextInt();
-        for (Horse tmp :
-                horses) {
-            tmp.run();
-            System.out.println(tmp.getName() + " speed: " + tmp.getSpeed());
-            if (tmp.isFinished()) {
-                hasFinished.add(tmp);
-            }
+
+        System.out.println("Choose the horse number to bet (enter 1..." + HORSENUMBER + "):");
+        int choice = checkChoice(sc.nextInt(), sc);
+        System.out.println("Race has finished with results:");
+        for (String result :
+                hasFinished) {
+            System.out.println(result);
         }
-        System.out.println("Your horse is finished on the " + (hasFinished.lastIndexOf(horses.get(choice - 1)) + 1) + " position");
+        int finishPosition = hasFinished.lastIndexOf(horses.get(choice - 1)) + 1;
+        System.out.print("Your horse is finished on the " + finishPosition + " position.");
+        System.out.println(finishPosition == 1 ? " You win!" : " You lose!");
+    }
+
+    public static synchronized void addFinished(String name) {
+        Program.hasFinished.add(name);
+    }
+
+    private static int checkChoice(int choice, Scanner sc) {
+        int correctChoice = choice;
+        while (true) {
+            if (correctChoice < 1 | correctChoice > HORSENUMBER) {
+                System.out.println("You entered an incorrect value!\nTry again:");
+                correctChoice = sc.nextInt();
+            } else break;
+        }
+        return correctChoice;
     }
 }
