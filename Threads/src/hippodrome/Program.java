@@ -1,7 +1,11 @@
 package hippodrome;
 
-import java.util.*;
-import java.util.concurrent.Semaphore;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * This program was created as a part of home task, that's given below.
@@ -15,45 +19,44 @@ import java.util.concurrent.Semaphore;
 public class Program {
 
     private static final int HORSENUMBER = 6;
-    private static List<String> hasFinished = Collections.synchronizedList(new ArrayList<>());
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        Semaphore semaphore = new Semaphore(HORSENUMBER);
-        List<String> horses = Collections.synchronizedList(new ArrayList<>());
+        CountDownLatch countDownLatch = new CountDownLatch(HORSENUMBER);
 
-        System.out.println("In race takes part such horses:");
+        ConcurrentHashMap<String, Integer> theyHasFinished = new Race().getHasFinished();
+
+        System.out.println("In the race takes part such horses:");
         for (int i = 0; i < HORSENUMBER; i++) {
-            Thread runningHorse = new Thread(new Horse(semaphore, "Horse-" + (i + 1)), "Horse #" + (i + 1));
-            runningHorse.start();
-            horses.add(runningHorse.getName());
-            System.out.println(horses.get(i));
+            try {
+                Thread runningHorse = new Thread(new Horse(countDownLatch, "Horse-" + (i + 1)),
+                        "Horse #" + (i + 1));
+                runningHorse.start();
+                countDownLatch.await();
+                System.out.println(runningHorse.getName());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         System.out.println("Choose the horse number to bet (enter 1..." + HORSENUMBER + "):");
-        int choice = checkChoice(sc.nextInt(), sc);
-        System.out.println("Race has finished with results:");
-        for (String result :
-                hasFinished) {
-            System.out.println(result);
-        }
-        int finishPosition = hasFinished.lastIndexOf(horses.get(choice - 1)) + 1;
-        System.out.print("Your horse is finished on the " + finishPosition + " position.");
-        System.out.println(finishPosition == 1 ? " You win!" : " You lose!");
-    }
-
-    public static synchronized void addFinished(String name) {
-        Program.hasFinished.add(name);
-    }
-
-    private static int checkChoice(int choice, Scanner sc) {
-        int correctChoice = choice;
+        int choice = sc.nextInt();
         while (true) {
-            if (correctChoice < 1 | correctChoice > HORSENUMBER) {
-                System.out.println("You entered an incorrect value!\nTry again:");
-                correctChoice = sc.nextInt();
+            if (choice < 1 | choice > HORSENUMBER) {
+                System.out.println("You enter an incorrect value.\nTry again:");
+                choice = sc.nextInt();
             } else break;
         }
-        return correctChoice;
+
+        System.out.println("Race has finished with the results:");
+
+        for (int i = 1; i <= theyHasFinished.size(); i++) {
+            System.out.print("Horse #".concat(String.valueOf(i)));
+            System.out.println(" finished " + theyHasFinished.get("Horse #".concat(String.valueOf(i))));
+        }
+
+        int finishPosition = theyHasFinished.get("Horse #".concat(String.valueOf(choice)));
+        System.out.print("Your horse finished on the " + finishPosition + " position.");
+        System.out.println(finishPosition == 1 ? " You win!" : " You lose!");
     }
 }
