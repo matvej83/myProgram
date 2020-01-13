@@ -1,10 +1,7 @@
 package hippodrome;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -16,21 +13,21 @@ import java.util.concurrent.CountDownLatch;
  * horse finished.
  */
 
-public class Program {
+public class Hippodrome {
 
     private static final int HORSENUMBER = 6;
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        IOtoFile iOtoFile = new IOtoFile();
+        iOtoFile.clearFile(args[0]);
         CountDownLatch countDownLatch = new CountDownLatch(HORSENUMBER);
-
-        ConcurrentHashMap<String, Integer> theyHasFinished = new Race().getHasFinished();
-
+        Race race = new Race();
         System.out.println("In the race takes part such horses:");
         for (int i = 0; i < HORSENUMBER; i++) {
             try {
-                Thread runningHorse = new Thread(new Horse(countDownLatch, "Horse-" + (i + 1)),
-                        "Horse #" + (i + 1));
+                Horse horse = new Horse(countDownLatch, "Horse-" + (i + 1));
+                horse.setFilePath(args[0]);
+                Thread runningHorse = new Thread(horse, "Horse#" + (i + 1));
                 runningHorse.start();
                 countDownLatch.await();
                 System.out.println(runningHorse.getName());
@@ -40,22 +37,27 @@ public class Program {
         }
 
         System.out.println("Choose the horse number to bet (enter 1..." + HORSENUMBER + "):");
-        int choice = sc.nextInt();
-        while (true) {
-            if (choice < 1 | choice > HORSENUMBER) {
-                System.out.println("You enter an incorrect value.\nTry again:");
-                choice = sc.nextInt();
-            } else break;
+        int choice;
+        try (Scanner sc = new Scanner(System.in)) {
+            while ((choice = sc.nextInt()) > HORSENUMBER || choice < 1) {
+                System.out.println("You entered an incorrect value.\nTry again:");
+            }
         }
 
         System.out.println("Race has finished with the results:");
+        List<String> winners = iOtoFile.readStringsFromFile(args[0]);
 
-        for (int i = 1; i <= theyHasFinished.size(); i++) {
-            System.out.print("Horse #".concat(String.valueOf(i)));
-            System.out.println(" finished " + theyHasFinished.get("Horse #".concat(String.valueOf(i))));
+        for (String tmp :
+                winners) {
+            race.addFinished(tmp);
         }
 
-        int finishPosition = theyHasFinished.get("Horse #".concat(String.valueOf(choice)));
+        for (int i = 1; i <= winners.size(); i++) {
+            System.out.print("Horse#".concat(String.valueOf(i)));
+            System.out.println(" finished " + race.getHasFinished().get("Horse#".concat(Integer.toString(i))));
+        }
+
+        int finishPosition = race.getHasFinished().get("Horse#".concat(String.valueOf(choice)));
         System.out.print("Your horse finished on the " + finishPosition + " position.");
         System.out.println(finishPosition == 1 ? " You win!" : " You lose!");
     }

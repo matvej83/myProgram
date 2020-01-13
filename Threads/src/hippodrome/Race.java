@@ -4,7 +4,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Race {
 
-    private static ConcurrentHashMap<String, Integer> hasFinished = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, Integer> hasFinished = new ConcurrentHashMap<>();
 
     public Race() {
     }
@@ -14,21 +14,11 @@ public class Race {
     }
 
     public void setHasFinished(ConcurrentHashMap<String, Integer> hasFinished) {
-        Race.hasFinished = hasFinished;
+        this.hasFinished = hasFinished;
     }
 
-    public static void addFinished(String horse) {
-        int position = Race.hasFinished.size();
-        Race.hasFinished.put(horse, position + 1);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public void addFinished(String horseName) {
+        int position = this.hasFinished.size();
+        this.hasFinished.put(horseName, position + 1);
     }
 }
