@@ -83,7 +83,7 @@ var mergeSort = function (array) {
         return result.concat(left.slice(iLeft)).concat(right.slice(iRight));
     }
 
-    function merge_sort(items) {
+    function mergeAndSort(items) {
         // in case, when array contains only 1 element return this element
         if (items.length < 2) {
             return items;
@@ -93,10 +93,10 @@ var mergeSort = function (array) {
         let left = items.slice(0, middle);
         let right = items.slice(middle);
         //for new arrays run recursive sorting, merge it and returns common array
-        return merge(merge_sort(left), merge_sort(right));
+        return merge(mergeAndSort(left), mergeAndSort(right));
     }
 
-    return merge_sort(array);
+    return mergeAndSort(array);
 };
 sortedArray = mergeSort(initialArray);
 console.log(sortedArray);
