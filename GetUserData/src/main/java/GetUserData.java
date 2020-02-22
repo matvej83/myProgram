@@ -9,6 +9,7 @@ import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -34,6 +35,19 @@ public class GetUserData extends HttpServlet {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GetUserData that = (GetUserData) o;
+        return userData.equals(that.userData);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userData);
+    }
+
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         String remoteHost = req.getRemoteHost(); //get ip
@@ -55,7 +69,6 @@ public class GetUserData extends HttpServlet {
         resp.setContentType("text/html");
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.getWriter().print(responseBody);
-
 
     }
 
