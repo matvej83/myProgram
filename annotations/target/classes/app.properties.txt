@@ -1,5 +1,0 @@
-cargo Fruits
-weight 10.0
-length 500.0
-width 400.0
-height 200.0
