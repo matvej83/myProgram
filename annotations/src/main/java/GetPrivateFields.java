@@ -8,7 +8,12 @@ import java.nio.file.Paths;
 import java.util.Properties;
 import java.lang.reflect.Field;
 
-
+/***
+ * This program has created as a part of the home task by theme "Reflection API". The program consists of 3 parts:
+ * first - class AppProperties, that contains fields and methods to be extracted, second - interface PropertyKey,that
+ * contains annotations, third - main program. The values of the fields, that will be read, are stored in the file
+ * app.properties.
+ */
 public class GetPrivateFields {
 
     public static void main(String[] args) throws URISyntaxException {

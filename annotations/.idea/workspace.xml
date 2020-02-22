@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1a842af5-efb7-4128-b404-171676c5398e" name="Default Changelist" comment="" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <list default="true" id="1a842af5-efb7-4128-b404-171676c5398e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/GetPrivateFields.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GetPrivateFields.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/GetPrivateFields.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/GetPrivateFields.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/annotations.kotlin_module" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../hibernate/annual_report.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../hibernate/annual_report.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rest-service/src/main/java/com/alevel/restservice/GreetingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../rest-service/src/main/java/com/alevel/restservice/GreetingController.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,6 +23,9 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="MavenImportPreferences">
     <option name="importingSettings">
       <MavenImportingSettings>
@@ -23,7 +34,14 @@
     </option>
   </component>
   <component name="ProjectId" id="1UERPZodAC5unZEz6eNLKR3J62u" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -35,18 +53,6 @@
       <recent name="H:\annotations\src\test" />
       <recent name="H:\annotations\src\main\resources" />
     </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager" selected="Application.GetPrivateFields">
     <configuration name="AppProperties" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -85,6 +91,7 @@
       <workItem from="1575005755129" duration="4095000" />
       <workItem from="1575017901122" duration="1830000" />
       <workItem from="1575129257290" duration="591000" />
+      <workItem from="1582398857541" duration="2995000" />
     </task>
     <servers />
   </component>
