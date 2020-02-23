@@ -8,6 +8,13 @@ import nullability.storage.UndergroundRocketStorage;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+/***
+ * This programm has written by Michael Horbunov (GitHub: voidAspect) and suplemented by Vladimir Matveenko
+ * (GitHub: matvej83) in a part of:
+ * 1. Create submarine by means realization MobileLaunchPlatform interface. Method move change start point.
+ * 2. Realize interactive logic: user has choose rocket from the list (if he gives a wrong index - retry input attempt),
+ * after he has choose the start method (the silo or the submarine) and start point, after that a launch starts.
+ */
 
 public class RocketLaunchApplication {
     public static void main(String[] args) {

@@ -2,6 +2,21 @@ package someSubstances;
 
 import java.util.*;
 
+/***
+ * This program is a part of home task.
+ * Write program, that simulates different substances state of aggregation changing that dep[ends on temperature.
+ *
+ * Program scheme:
+ *
+ * Interface Substance:
+ *  • method State heatUp(double t), that must change the temperature. It's realised by classes Water, Iron, Oxygen.
+ *    This method returns substance state of aggregation.
+ *  • method double getTemperature(), that returns the temperature.
+ *  • enum State - contains all possible state of aggregation - liquid, solid or gas.
+ *  User has choose one of the substances and after can to input values of the temperature changing. Every time, when
+ *  he do it - print new substance temperature and state of aggregation at a given temperature.
+ *  If user enter 0 - finish the program. Initial temperature for all the substances = 20 C.
+ */
 public class Substances {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);

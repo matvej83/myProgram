@@ -12,7 +12,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-
+/***
+ * This program has created as a part of the home task "Data export from the DB to csv-file":
+ *
+ * There are tables into the DB:
+ *  • daily_reports, that contains: date, department id and benefit;
+ *  • departments, that contains department name and it's description
+ *
+ * Write the program, that by using a JPA (Hibernate), extracted the data from the DB into the csv-file, that named
+ * annual_report.csv. This file contains tables with two rows: department name and annual profit (year is entered by
+ * a user)
+ */
 public class JpaEntityManager {
     private static final Logger log = LoggerFactory.getLogger(JpaEntityManager.class);
 

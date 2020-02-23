@@ -1,4 +1,4 @@
-package arithmeticProgression;
+package arithmeticprogression;
 
 public interface TheMethodsForArithmeticProgression {
 

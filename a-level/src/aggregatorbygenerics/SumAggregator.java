@@ -1,4 +1,4 @@
-package myGenerics;
+package aggregatorbygenerics;
 
 public class SumAggregator implements Aggregator<Integer, Integer> {
     @Override

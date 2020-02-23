@@ -1,5 +1,9 @@
 import java.util.*;
 
+/***
+ * This program is a part of home task:
+ * Write the program for finding the numbers of digits
+ */
 public class NumOfDigitsRec {
     public static void main(String[] args) {
         int theNumber = 0, theNumOfDigit = 0;

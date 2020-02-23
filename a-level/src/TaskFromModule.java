@@ -1,4 +1,9 @@
 import java.util.*;
+
+/***
+ * This program has created as a task from the first module.
+ * Write the program to count unique numbers in the array.
+ */
 //unique numbers counting
 public class TaskFromModule {
     public static void main(String[] args) {

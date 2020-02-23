@@ -2,6 +2,22 @@ package myGenerics;
 
 import java.util.Arrays;
 
+/***
+ * Realize the class AppProperties, that stores in itself programm properties (names of properties you sholud choice),
+ * this must be an public fields. Fields, that marked by the annotation @PropertyKey (it must be created) - you should
+ * initialize from the file with the properties app.properties, that lies in the current directory. Concrete the
+ * properties you should choice from "value" parameter of the annotation.
+ *
+ * Example:
+ *
+ * @PropertyKey(“connections.limit”)
+ * public int maxConnections;
+ *
+ * In app.properties:
+ *
+ * connections.limit=64
+ */
+
 public abstract class Application {
     public static void main(String[] args) {
         //we've tested aggregate method from SumAggregator class

@@ -1,4 +1,4 @@
-package myGenerics;
+package aggregatorbygenerics;
 
 public class MaxAggregator<T extends Comparable<? super T>> implements Aggregator<T, T> {
     @Override

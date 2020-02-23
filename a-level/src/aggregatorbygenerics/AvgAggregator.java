@@ -1,4 +1,4 @@
-package myGenerics;
+package aggregatorbygenerics;
 
 public class AvgAggregator implements Aggregator<Double, Integer>{
 

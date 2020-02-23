@@ -1,5 +1,10 @@
 import java.util.*;
 
+/***
+ * This program has created as a part of home task:
+ * Write the program for finding the sum of number digits
+ */
+
 public class SummOfDigitRec {
     public static void main(String[] args) {
         int theNumber = 0, theSummOfDigit = 0;

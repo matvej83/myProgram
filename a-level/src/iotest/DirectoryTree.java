@@ -3,7 +3,7 @@ package iotest;
 import java.io.File;
 import java.io.IOException;
 
-public class Programm {
+public class DirectoryTree {
     public static void main(String args[]) throws IOException {
         String thePath = args[0];
         File rootDir = new File(thePath);

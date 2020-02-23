@@ -1,7 +1,18 @@
-package myGenerics;
+package aggregatorbygenerics;
 
 import java.util.Arrays;
 
+/***
+ * This program has created as a part of home task by the theme "Generics":
+ * Create an interface Aggregator with a single method aggregate, that receives an array with type T1, and returns a value
+ * with a type T2.
+ * Write three realization of this interface:
+ *  1. CountAggregator - aggregate method counts an input array length.
+ *  2. SumAggregator - aggregate method receives an integer numbers array, and returns the amount.
+ *  3. AvgAggregator - aggregate method receives an integer numbers array, and returns the average (can be not an integer)
+ *  4. MaxAggregator - aggregate method receives a numbers array with a type T1, extends Comparable<T1> and returns
+ *  the maximum value
+ */
 public abstract class Application {
     public static void main(String[] args) {
         //we've tested aggregate method from SumAggregator class

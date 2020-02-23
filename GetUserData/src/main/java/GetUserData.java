@@ -16,6 +16,16 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @WebServlet(urlPatterns = "/render")
 
+/***
+ * This servlet has created as a part of the home task:
+ * Realize a web-application, that accept a GET requests, and stores in the memory a list of unique ip-addresses, that
+ * makes a request to it, and appropriate values of http-headers User-Agent.
+ * In response application gives html document with the current list (IP and User-Agent must be bold - html tag <b></b>)
+ *
+ * Example of the list:
+ *
+ * 127.0.0.1 :: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:71.0) Firefox/71.0
+ */
 public class GetUserData extends HttpServlet {
 
     private String responseTemplate;

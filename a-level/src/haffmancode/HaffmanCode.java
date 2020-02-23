@@ -1,70 +1,11 @@
 package haffmancode;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.PriorityQueue;
 
 public class HaffmanCode {
-    public class Node implements Comparable<Node> {
-        private final int sum;
-        private String code;
-
-        public Node(int sum) {
-            this.sum = sum;
-        }
-
-        void buildCode(String code) {
-            this.code = code;
-        }
-
-        @Override
-        public int compareTo(Node o) {
-            return Integer.compare(sum, o.sum);
-        }
-
-        public int getSum() {
-            return sum;
-        }
-
-        public String getCode() {
-            return code;
-        }
-    }
-
-    public class InternalNode extends Node {
-        private Node left;
-        private Node right;
-
-        public InternalNode(Node left, Node right) {
-            super(left.sum + right.sum);
-            this.left = left;
-            this.right = right;
-        }
-
-        @Override
-        void buildCode(String code) {
-            super.buildCode(code);
-            left.buildCode(code + "0");
-            right.buildCode(code + "1");
-        }
-
-    }
-
-    class LeafNode extends Node {
-        private char symbol;
-
-
-        public LeafNode(char symbol, int count) {
-            super(count);
-            this.symbol = symbol;
-        }
-
-        @Override
-        void buildCode(String code) {
-            super.buildCode(code);
-            System.out.println(symbol + "-->" + code);
-        }
-
-    }
-
     public void compressData(String ifName, String ofName) {
         String inputFile = ifName;
         String outputFile = ofName;
@@ -86,7 +27,7 @@ public class HaffmanCode {
         Map<Character, Node> charNodes = new HashMap<>();
         PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
         for (Map.Entry<Character, Integer> entry : count.entrySet()) {
-            LeafNode node = new LeafNode(entry.getKey(), entry.getValue());
+            Node.LeafNode node = new Node.LeafNode(entry.getKey(), entry.getValue());
             charNodes.put(entry.getKey(), node);
             priorityQueue.add(node);
         }
@@ -94,7 +35,7 @@ public class HaffmanCode {
         while (priorityQueue.size() > 1) {
             Node first = priorityQueue.poll();
             Node second = priorityQueue.poll();
-            InternalNode node = new InternalNode(first, second);
+            Node.InternalNode node = new Node.InternalNode(first, second);
             sum += node.getSum();
             priorityQueue.add(node);
         }
@@ -119,10 +60,5 @@ public class HaffmanCode {
         }
         System.out.println(stringBuilder.toString());
         ioToFile.writeToBinary(stringBuilder.toString(), outputFile);
-
-        for (Map.Entry entry : charNodes.entrySet()) {
-            System.out.println("Key: " + entry.getKey() + " Value: "
-                    + entry.getValue().toString());
-        }
     }
 }

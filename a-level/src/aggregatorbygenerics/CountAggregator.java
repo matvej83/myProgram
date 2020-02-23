@@ -1,4 +1,4 @@
-package myGenerics;
+package aggregatorbygenerics;
 
 public class CountAggregator <T> implements Aggregator<Integer, T> {
 

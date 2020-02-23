@@ -1,3 +1,8 @@
+/***
+ * This program has created as a part of home task:
+ * 1. Write the program for raising the numbers in the ten power
+ * 2. Write the program for finding the maximum of the 3-th numbers
+ */
 public class Numbers {
 
 	public static void main(String[] args) {

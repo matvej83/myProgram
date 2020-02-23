@@ -5,6 +5,55 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/***
+ * This program has created as a part of home task:
+ * Given the cities list. All the path between the cities has a cost (integer positive value). Task - find the most
+ * beneficial path between two cities. The maximum path cost - 200000.
+ * An initial data must be read from the file input.txt.
+ * The result must be written in the file output.txt.
+ *
+ * Input scheme:
+ *
+ * n [city number <= 10000]
+ * NAME [city name]
+ * p [the number of neighbors of the city NAME]
+ * nr cost [nr - the neighbor NAME index (nr begins from 1)]
+ *            [cost - the cost of the path]
+ * r [path numbers, that you must to find <= 100]
+ * NAME1 NAME2 [NAME1 - path begin, NAME2 - path end]
+ *
+ * Output scheme:
+ *
+ * cost [the minimum cost of the path from NAME1 tо NAME2]
+ *
+ * Input example:
+ * 4
+ * gdansk
+ * 2
+ * 2 1
+ * 3 3
+ * bydgoszcz
+ * 3
+ * 1 1
+ * 3 1
+ * 4 4
+ * torun
+ * 3
+ * 1 3
+ * 2 1
+ * 4 1
+ * warszawa
+ * 2
+ * 2 4
+ * 3 1
+ * 2
+ * gdansk warszawa
+ * bydgoszcz warszawa
+ *
+ * Output example:
+ * 3
+ * 2
+ */
 public class GraphApplication {
     public static void main(String[] args) throws IOException {
         final int INFINITY = 200000;

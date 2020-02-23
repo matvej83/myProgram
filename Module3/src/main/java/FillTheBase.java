@@ -7,7 +7,23 @@ import org.slf4j.LoggerFactory;
 import javax.persistence.EntityManager;
 import java.util.Scanner;
 
-
+/***
+ * This program has created as a module task "Data bases":
+ * Into the imaginary social network there are Users (id, name), Photo (id, name, author) and Comments to Photo (id,
+ * text, author, which Photo relates). All the Users has a possibilities to like another Users, Photos and Comments to
+ * Photos. You should realize such possibilities:
+ *
+ *  • User can't like same entity twice (f.e. same Photo);
+ *  • User can withdraw like;
+ *  • need to be able to count a number of likes, that received by entity, and output the list of Users, who likes the
+ *    entity;
+ *  • the new entities may appear in the future, that can be liked.
+ *
+ *  Its recommended, follows the principles of normalization and mark links with the foreign keys (and at the DB level
+ *  prevents the possibilities of like re-sending).
+ *
+ *  DBMS and ORM choosing - its a developer decision.
+ */
 public class FillTheBase {
 
     private static final Logger log = LoggerFactory.getLogger(JpaEntityManager.class);
