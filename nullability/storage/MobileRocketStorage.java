@@ -1,0 +1,32 @@
+package nullability.storage;
+
+import nullability.OptionalRocket;
+import nullability.Rocket;
+
+public class MobileRocketStorage implements RocketStorage {
+    private final Rocket[] rockets;
+
+    public MobileRocketStorage(Rocket... rockets) {
+        this.rockets = rockets;
+    }
+    @Override
+    public Rocket get(int index) throws RocketNotFoundException {
+        OptionalRocket rocket = tryToGet(index);
+        if (rocket.isPresent()) {
+            return rocket.get();
+        } else {
+            throw new RocketNotFoundException(index);
+        }
+    }
+    @Override
+    public OptionalRocket tryToGet(int index) {
+        Rocket rocket;
+        if (index < 0 || index >= rockets.length) {
+            rocket = null;
+        } else {
+            rocket = rockets[index];
+        }
+        rockets[index] = null;
+        return new OptionalRocket(rocket);
+    }
+}
